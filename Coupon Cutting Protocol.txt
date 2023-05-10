@@ -1,0 +1,32 @@
+Coupon Cutting Protocol
+
+Foam Block Ceation
+-48 by 14.5 by 3/4 in foam insulation sheets from home depot (6 in a pack)
+-Select EPS in 24+- 2 KG/M^3
+-3m 78 EPS foam spray adhesive sprayed on the foam layers in strips
+-Each spray strip is roughly 1.5-2.5 inches wide and goes tip to tip 
+-Let cure with weight on the foam panels
+Tips: Gloves and Trash bag are used to keep spray clean up to a minimum
+      Use Chairs and extra foam to weight the layers in between curing
+-NEXT use the foam cutter to turn the 48 in long block into 2 24 in long blocks
+-Repeat the previous steps to glue the two blocks together on top of eachother
+ to create the final 24 by 14.5 by 9.5 inch layered foam block
+
+ Foam Cutter Coupon Creation
+ -2 MDI files are provided: SurfURS_TopCut and SurfURS_BottomCut
+ -The first file used is TopCut
+ -Place the foam block in the build bed
+ -Use the two acrylic swivels to position the block
+ -Pinch the block inbetween the acrylic and a foam bar along the bottom held by a weight
+ -Place the wire at the blocks zero zero edge (Top Edge , Small value side)
+ -RAPID RATE: 2%
+ -VOLTS: 30.5
+ Tips: Run the MDI code before cutting with the foam block 
+       Turn up Rapid Rate speed when wire is changing sides
+-NEXT Repeat above steps with the foam coupons still in the layered foam block 
+-Turn the block upside down to do the other 4 foam coupons
+Tips: A light weight (Thin plywood) can be used to futher secure the layered foam block
+
+
+
+
