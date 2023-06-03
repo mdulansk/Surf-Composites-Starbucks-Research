@@ -4,20 +4,22 @@ sys.path.append('../classes')
 from Material import Material
 import numpy as np
 from abdCalcs import ABD
+from ShearAndMoment import shear_and_moment
 from MomInertia import moments_of_inertia
-from scipy.interpolate import interp1d
+# from scipy.interpolate import interp1d
 #from SurfboardGeneration import offset, surfboard_outline
 import matplotlib.pyplot as plt
 
 class TestSpecimen:
 
-    def __init__(self, construction):
+    def __init__(self, construction,P,L,Lw):
         self.construction = construction
         self.E = []
         self.materials = {}
         self.abd_materials = {}
         self.yzs = []
         self.calculate_E()
+        self.get_shear_moment(P,L,Lw)
 
     def calculate_E(self):
         mat_thickness = 0  # if multiple materials are given
@@ -88,3 +90,7 @@ class TestSpecimen:
         self.E = [self.construction[loc][0].E1 for loc in ['Core','Core','Stringer','Bot Lam','Top Lam']]
         self.EIyy, self.EIzz, self.EIyz, self.EA, self.weight, self.zc, self.yc, self.fig = \
             moments_of_inertia(np.array(self.yzs), self.E, self.materials)
+    
+    def get_shear_moment(self,P,L,Lw):
+        self.w_max, self.V_max, self.M_max, self.shear_moment_fig = \
+        shear_and_moment(P,L,Lw)
