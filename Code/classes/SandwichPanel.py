@@ -85,5 +85,6 @@ class TestSpecimen:
                 'Stringer':['orange',self.construction['Stringer'][0].rho],\
                 'Bot Lam':['brown',self.construction['Bot Lam'][0].rho],\
                 'Top Lam':['brown',self.construction['Top Lam'][0].rho]}
-        self.E = [self.construction[loc][0].E1 for loc in ['Core','Core','Bot Lam','Top Lam']]
-        self.EIyy, self.EIzz, self.EIyz, self.EA, self.weight = moments_of_inertia(np.array(self.yzs), self.E, self.materials)
+        self.E = [self.construction[loc][0].E1 for loc in ['Core','Core','Stringer','Bot Lam','Top Lam']]
+        self.EIyy, self.EIzz, self.EIyz, self.EA, self.weight, self.zc, self.yc, self.fig = \
+            moments_of_inertia(np.array(self.yzs), self.E, self.materials)
