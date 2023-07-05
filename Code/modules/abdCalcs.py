@@ -46,7 +46,7 @@ def ABD(E1,E2,G12,v12,theta, t):
     for j in range(len(theta)):
         z[j,0] = z_bottom + z_index*(j)
         z_index = t
-
+    
     z_index = 0
     for j in range(len(theta)):
         z[j,1] = z_bottom + t + z_index*(j)
