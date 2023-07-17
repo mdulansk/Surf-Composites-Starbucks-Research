@@ -51,6 +51,6 @@ def build_specimens_output(fp):
         name = ro['ID']
         return TestSpecimen(construction,L,Lw,name)
     # KEEP ADDING NEW THINGS TO specimen_results
-    specimen_results['TestSpecimens'] = specimens_df.apply(lambda ro: np.nan if ro.drop('weight (lb)').isna().any()\
+    specimen_results['TestSpecimens'] = specimens_df.apply(lambda ro: np.nan if ro.drop('PreLaminated Weight (g)').isna().any()\
                                                         else make_specimen_object(ro),axis=1)
     return specimen_results
