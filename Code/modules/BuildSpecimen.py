@@ -53,4 +53,6 @@ def build_specimens_output(fp):
     # KEEP ADDING NEW THINGS TO specimen_results
     specimen_results['TestSpecimens'] = specimens_df.apply(lambda ro: np.nan if ro.drop('PreLaminated Weight (g)').isna().any()\
                                                         else make_specimen_object(ro),axis=1)
+    specimen_results['Max Load (lb)'] = specimen_results['TestSpecimens'].apply(lambda x: x.max_load if not pd.isna(x) else np.nan)
+    specimen_results['Max Displacement (in)'] = specimen_results['TestSpecimens'].apply(lambda x: x.max_displ if not pd.isna(x) else np.nan)
     return specimen_results

@@ -102,7 +102,7 @@ class TestSpecimen:
         specimens_fp = os.path.join(pardir,'CouponData','TestingData',f'{self.name}TestData.txt')
         
         if os.path.exists(specimens_fp):
-            self.testing_data_fig, self.max_load = plot_fit_test_data(specimens_fp)
+            self.testing_data_fig, self.max_load, self.max_displ = plot_fit_test_data(specimens_fp)
         else:
             print(f'File Path Not Found for test specimen {self.name}.')
             self.testing_data_fig, self.max_load = np.nan, np.nan
