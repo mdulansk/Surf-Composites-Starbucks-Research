@@ -3,7 +3,6 @@ sys.path.append('../classes')
 import numpy as np
 import sympy as sym
 from Material import Material
-# from abdCalcs import ABDs
 from SandwichPanel import TestSpecimen
 import pandas as pd
 
@@ -12,7 +11,7 @@ def build_specimens_output(fp):
     specimens_df = pd.read_excel(fp)
     specimens_df.head()
 
-    #Defining Materials 
+    #Defining Materials - Metric
     Eglass6oz = Material("6oz_Eglass", 4305899, 4305899, 7.687E14, 0.17,  0.0903)
     Eglass4oz = Material("4oz_Eglass", 4305899 * 2/3, 4305899 * 2/3,5.3E9*2/3, 0.17,  0.0903*2/3)
     EPS_Foam = Material("EPS_Foam", 5511.56, 5511.56, 2755.78, 0.32, 0.00197)
@@ -46,10 +45,11 @@ def build_specimens_output(fp):
             construction['Top Lam'].append([material_mapping[toplam],ro['Lamina Thickness']])
         for botLam in ro['Bottom Lamina'].split(','):
             construction['Bot Lam'].append([material_mapping[botLam],ro['Lamina Thickness']])
-        P = ro['Failure Load (lb)']
+        #P = ro['Failure Load (lb)']
         L = ro['Half Distance Between Supports']
         Lw = ro['Lw']
-        return TestSpecimen(construction,P,L,Lw)
+        name = ro['ID']
+        return TestSpecimen(construction,L,Lw,name)
     # KEEP ADDING NEW THINGS TO specimen_results
     specimen_results['TestSpecimens'] = specimens_df.apply(lambda ro: np.nan if ro.drop('weight (lb)').isna().any()\
                                                         else make_specimen_object(ro),axis=1)

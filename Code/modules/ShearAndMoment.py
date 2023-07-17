@@ -10,24 +10,39 @@ def shear_and_moment(P,L,Lw):
     P = -P
     a, b, c, x, = sym.symbols('a b c x')
 
-    # Define the function
-    w = a*x**2 + b*x + c
+    # # Define the function
+    # w = a*x**2 + b*x + c
 
-    # Define the equations
-    eq1 = sym.Eq(sym.integrate(w, (x, -Lw, Lw)), P)
-    eq2 = sym.Eq(w.subs(x, -Lw), 0)
-    eq3 = sym.Eq(w.subs(x, Lw), 0)
+    # # Define the equations
+    # eq1 = sym.Eq(sym.integrate(w, (x, -Lw, Lw)), P)
+    # eq2 = sym.Eq(w.subs(x, -Lw), 0)
+    # eq3 = sym.Eq(w.subs(x, Lw), 0)
 
     # Solve the system of equations
-    solution = sym.solve((eq1, eq2, eq3), (a, b, c))
-    a_val = solution[a]
-    b_val = solution[b]
-    c_val = solution[c]
+    # solution = sym.solve((eq1, eq2, eq3), (a, b, c))
+    # a_val = solution[a]
+    # b_val = solution[b]
+    # c_val = solution[c]
 
-    x_vals = np.linspace(-10, 10, 100)
+    x_vals = np.linspace(-10, 10, 1000)
     fig = make_subplots(rows=3,cols=1)
-    #Plotting Distributed Load
-    w_solve = a_val*x**2 + b_val*x + c_val
+
+    # #Plotting Distributed Parabolic Load
+    # w_solve = a_val*x**2 + b_val*x + c_val
+    # wexpr1,wcond1 = 0, sym.And(-L<x,x<-Lw)
+    # wexpr2,wcond2 = w_solve,sym.And(-Lw<x,x<Lw)
+    # wexpr3,wcond3 = 0, sym.And(Lw<x,x<L)
+    # w = sym.Piecewise((wexpr1,wcond1),(wexpr2,wcond2),(wexpr3,wcond3))
+    # w_vals = np.array([float(sym.N(w.subs('x', x))) for x in x_vals])
+    # w_val_at_0 = float(sym.N(w.subs('x', 0)))
+    # fig.add_trace(go.Scatter(x=x_vals,y=w_vals,name='Distributed Load (lb/in)'),row=1,col=1)
+    # fig.add_annotation(
+    #     text=str(w_val_at_0)+" lbin", x=0, y=w_val_at_0, xref='x1', yref='y1', showarrow=False,
+    #     font=dict(color='black'), bgcolor='white', bordercolor='black', borderwidth=1, borderpad=1
+    # )
+
+    # Plotting Constant Distributed Load
+    w_solve = P/(2*Lw)
     wexpr1,wcond1 = 0, sym.And(-L<x,x<-Lw)
     wexpr2,wcond2 = w_solve,sym.And(-Lw<x,x<Lw)
     wexpr3,wcond3 = 0, sym.And(Lw<x,x<L)
@@ -39,6 +54,7 @@ def shear_and_moment(P,L,Lw):
         text=str(w_val_at_0)+" lbin", x=0, y=w_val_at_0, xref='x1', yref='y1', showarrow=False,
         font=dict(color='black'), bgcolor='white', bordercolor='black', borderwidth=1, borderpad=1
     )
+
 
     #Solving and Plotting Shear
     Vexpr1,Vcond1 = -P/2, sym.And(-L<x,x<-Lw)
@@ -54,7 +70,6 @@ def shear_and_moment(P,L,Lw):
     )
 
     #Solving for Moment
-    print(V.subs(x,-L)*L)
     M = sym.integrate(V,x) - P/2*L
     M_vals = np.array([float(sym.N(M.subs('x', x))) for x in x_vals])
     M_val_at_0 = float(sym.N(M.subs('x', 0)))

@@ -1,0 +1,19 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['Model-1'].rootAssembly.features['Coincident Point-1']
+mdb.models['Model-1'].rootAssembly.ParallelFace(fixedPlane=
+    mdb.models['Model-1'].rootAssembly.instances['Block2-1'].faces[0], flip=OFF
+    , movablePlane=
+    mdb.models['Model-1'].rootAssembly.instances['Block1-1'].faces[4])

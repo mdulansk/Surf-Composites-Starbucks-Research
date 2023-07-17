@@ -6,20 +6,25 @@ import numpy as np
 from abdCalcs import ABD
 from ShearAndMoment import shear_and_moment
 from MomInertia import moments_of_inertia
-# from scipy.interpolate import interp1d
-#from SurfboardGeneration import offset, surfboard_outline
-import matplotlib.pyplot as plt
+import os
+from PlotFitTesting import plot_fit_test_data
 
 class TestSpecimen:
 
-    def __init__(self, construction,P,L,Lw):
+    def __init__(self, construction,L,Lw,name):
         self.construction = construction
         self.E = []
         self.materials = {}
         self.abd_materials = {}
         self.yzs = []
+        self.name = name
+        self.L = L
+        self.Lw = Lw
         self.calculate_E()
-        self.get_shear_moment(P,L,Lw)
+        self.get_test_data()
+        # if not np.isnan(self.max_load):
+        #     self.get_shear_moment(self.max_load)
+        
 
     def calculate_E(self):
         mat_thickness = 0  # if multiple materials are given
@@ -91,6 +96,23 @@ class TestSpecimen:
         self.EIyy, self.EIzz, self.EIyz, self.EA, self.weight, self.zc, self.yc, self.fig = \
             moments_of_inertia(np.array(self.yzs), self.E, self.materials)
     
-    def get_shear_moment(self,P,L,Lw):
+    def get_test_data(self):
+        cwd = os.getcwd()
+        pardir = os.path.dirname(os.path.dirname(cwd))
+        specimens_fp = os.path.join(pardir,'CouponData','TestingData',f'{self.name}TestData.txt')
+        
+        if os.path.exists(specimens_fp):
+            self.testing_data_fig, self.max_load = plot_fit_test_data(specimens_fp)
+        else:
+            print(f'File Path Not Found for test specimen {self.name}.')
+            self.testing_data_fig, self.max_load = np.nan, np.nan
+        
+    def get_shear_moment(self,P):
         self.w_max, self.V_max, self.M_max, self.shear_moment_fig = \
-        shear_and_moment(P,L,Lw)
+        shear_and_moment(P,self.L,self.Lw)
+
+
+
+    
+
+    

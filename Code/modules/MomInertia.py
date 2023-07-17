@@ -34,7 +34,6 @@ def moments_of_inertia(yzs, E, mats):
     EIyy = 0.0
     EIzz = 0.0
     EIyz = 0.0
-
     for yz, e in zip(yzs, E):
         y, z = yz
 
@@ -43,10 +42,10 @@ def moments_of_inertia(yzs, E, mats):
         A = 0.5*np.abs(np.dot(y,np.roll(z,1))-np.dot(z,np.roll(y,1)))
         b = np.max(y) - np.min(y)
         h = np.max(z) - np.min(z)
-        Iyy = (b * h**3) / 12.0
-        Izz = (h * b**3) / 12.0
-        EIyy += e * (Iyy + A * z_c**2)
-        EIzz += e * (Izz + A * y_c**2)
+        Iyy = (b * h**3) / 12.0 + A * z_c**2
+        Izz = (h * b**3) / 12.0 + A * y_c**2
+        EIyy += e * (Iyy)
+        EIzz += e * (Izz)
         EIyz += e * np.sum(y_c * z_c) * A
     fig.update_layout(
     title='Geometry of Test Specimen',
