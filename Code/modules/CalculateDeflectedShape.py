@@ -44,4 +44,3 @@ def CalculateDeflectedShape(Eval, Ival, Lval, Load):
         plt.show()
 
     plot_deflection(deflection, Lval)
-
