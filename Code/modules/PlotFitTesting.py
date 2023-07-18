@@ -60,7 +60,7 @@ def plot_test_specimens(specimens_df):
             if isinstance(test_specimen.testing_data_fig, go.Figure):
                 for trace in test_specimen.testing_data_fig.data:
                     # Set the color and legend label of the trace based on the group
-                    trace.update(marker=dict(color=colors[i]), line=dict(color=colors[i]), showlegend=True, name=description)
+                    trace.update(line=dict(color=colors[i]), showlegend=True, name=description)
                     # Add the trace to the group's figure
                     fig.add_trace(trace)
                     # Store the legend label
@@ -105,6 +105,7 @@ def plot_test_specimens(specimens_df):
 
     # Show the overlapping plot
     overlapping_fig.show()
+
 
 
 
