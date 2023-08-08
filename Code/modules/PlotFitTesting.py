@@ -10,16 +10,41 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+# def plot_fit_test_data(fp):
+
+#     load_df = pd.read_csv(fp, sep='\t', skiprows=7).rename(columns={'in': 'Crosshead (in)', 'lbf': 'Load (lbf)', 'sec': 'Time (sec)'})
+#     load_df = load_df[load_df['Load (lbf)'] > 0.25].reset_index()
+#     first_contact = load_df['Crosshead (in)'].iloc[0]
+#     load_df['Crosshead (in)'] = load_df['Crosshead (in)'].apply(lambda x: x - first_contact)
+#     fig = px.line(load_df, x='Crosshead (in)', y='Load (lbf)', title='Load vs Crosshead')
+#     fig.update_xaxes(title_text='Crosshead (in)')
+#     fig.update_yaxes(title_text='Load (lbf)')
+
+#     # Find the first failure point (local maximum) after a load value greater than 100 pounds
+#     displ_values = load_df['Crosshead (in)'].values
+#     load_values = load_df['Load (lbf)'].values
+
+#     # Find the index where the load values are greater than 100 pounds
+#     start_idx = np.argmax(load_values > 100)
+
+#     # Find the index where the gradient goes from positive to negative, after the start_idx
+#     idx = start_idx + np.argmax(np.gradient(load_values[start_idx:]) < 0)
+
+#     max_displ = displ_values[idx]
+#     max_load = load_values[idx]
+
+#     # Add red marker at the first failure point
+#     fig.add_trace(go.Scatter(x=[max_displ], y=[max_load], mode='markers', marker=dict(color='red'), name='First Failure'))
+
+#     return fig, max_load, max_displ
+
 def plot_fit_test_data(fp):
 
     load_df = pd.read_csv(fp, sep='\t', skiprows=7).rename(columns={'in': 'Crosshead (in)', 'lbf': 'Load (lbf)', 'sec': 'Time (sec)'})
     load_df = load_df[load_df['Load (lbf)'] > 0.25].reset_index()
     first_contact = load_df['Crosshead (in)'].iloc[0]
     load_df['Crosshead (in)'] = load_df['Crosshead (in)'].apply(lambda x: x - first_contact)
-    fig = px.line(load_df, x='Crosshead (in)', y='Load (lbf)', title='Load vs Crosshead')
-    fig.update_xaxes(title_text='Crosshead (in)')
-    fig.update_yaxes(title_text='Load (lbf)')
-
+    
     # Find the first failure point (local maximum) after a load value greater than 100 pounds
     displ_values = load_df['Crosshead (in)'].values
     load_values = load_df['Load (lbf)'].values
@@ -32,6 +57,13 @@ def plot_fit_test_data(fp):
 
     max_displ = displ_values[idx]
     max_load = load_values[idx]
+
+    # Truncate the dataframe to only include rows up to and including the index idx
+    load_df = load_df.iloc[:idx+1]
+
+    fig = px.line(load_df, x='Crosshead (in)', y='Load (lbf)', title='Load vs Crosshead')
+    fig.update_xaxes(title_text='Crosshead (in)')
+    fig.update_yaxes(title_text='Load (lbf)')
 
     # Add red marker at the first failure point
     fig.add_trace(go.Scatter(x=[max_displ], y=[max_load], mode='markers', marker=dict(color='red'), name='First Failure'))
@@ -46,8 +78,7 @@ def plot_test_specimens(specimens_df):
     figures = []
 
     # Define a color scale for the different groups
-    colors = ['blue', 'green', 'red', 'orange', 'purple', 'magenta']  # Add more colors as needed
-
+    colors = ['blue', 'green', 'red', 'orange', 'purple', 'magenta', 'yellow','teal', 'cyan', 'brown', 'pink', 'gray', 'olive', 'lime']
     # Iterate over each group
     for i, (description, group) in enumerate(grouped_df):
         # Create a new figure for the group
