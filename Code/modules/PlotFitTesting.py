@@ -10,38 +10,10 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-# def plot_fit_test_data(fp):
-
-#     load_df = pd.read_csv(fp, sep='\t', skiprows=7).rename(columns={'in': 'Crosshead (in)', 'lbf': 'Load (lbf)', 'sec': 'Time (sec)'})
-#     load_df = load_df[load_df['Load (lbf)'] > 0.25].reset_index()
-#     first_contact = load_df['Crosshead (in)'].iloc[0]
-#     load_df['Crosshead (in)'] = load_df['Crosshead (in)'].apply(lambda x: x - first_contact)
-#     fig = px.line(load_df, x='Crosshead (in)', y='Load (lbf)', title='Load vs Crosshead')
-#     fig.update_xaxes(title_text='Crosshead (in)')
-#     fig.update_yaxes(title_text='Load (lbf)')
-
-#     # Find the first failure point (local maximum) after a load value greater than 100 pounds
-#     displ_values = load_df['Crosshead (in)'].values
-#     load_values = load_df['Load (lbf)'].values
-
-#     # Find the index where the load values are greater than 100 pounds
-#     start_idx = np.argmax(load_values > 100)
-
-#     # Find the index where the gradient goes from positive to negative, after the start_idx
-#     idx = start_idx + np.argmax(np.gradient(load_values[start_idx:]) < 0)
-
-#     max_displ = displ_values[idx]
-#     max_load = load_values[idx]
-
-#     # Add red marker at the first failure point
-#     fig.add_trace(go.Scatter(x=[max_displ], y=[max_load], mode='markers', marker=dict(color='red'), name='First Failure'))
-
-#     return fig, max_load, max_displ
-
 def plot_fit_test_data(fp):
 
     load_df = pd.read_csv(fp, sep='\t', skiprows=7).rename(columns={'in': 'Crosshead (in)', 'lbf': 'Load (lbf)', 'sec': 'Time (sec)'})
-    load_df = load_df[load_df['Load (lbf)'] > 0.25].reset_index()
+    load_df = load_df[load_df['Load (lbf)'] > 5].reset_index()
     first_contact = load_df['Crosshead (in)'].iloc[0]
     load_df['Crosshead (in)'] = load_df['Crosshead (in)'].apply(lambda x: x - first_contact)
     
@@ -78,7 +50,32 @@ def plot_test_specimens(specimens_df):
     figures = []
 
     # Define a color scale for the different groups
-    colors = ['blue', 'green', 'red', 'orange', 'purple', 'magenta', 'yellow','teal', 'cyan', 'brown', 'pink', 'gray', 'olive', 'lime']
+    colors = [
+    'blue', 
+    'green', 
+    'red', 
+    'orange', 
+    'purple', 
+    'magenta', 
+    'yellow', 
+    'teal', 
+    'cyan', 
+    'brown', 
+    'pink', 
+    'gray', 
+    'olive', 
+    'lime', 
+    'navy', 
+    'maroon', 
+    'gold', 
+    'silver', 
+    'black', 
+    'white', 
+    'coral', 
+    'aqua', 
+    'tan', 
+    'beige'
+    ]
     # Iterate over each group
     for i, (description, group) in enumerate(grouped_df):
         # Create a new figure for the group
@@ -99,6 +96,8 @@ def plot_test_specimens(specimens_df):
 
         # Update the layout and legend for the group's figure
         fig.update_layout(showlegend=True, legend_title_text='Description')
+        fig.update_layout(xaxis_title="Displacement (in)", yaxis_title="Force (lbs)")
+
         # Set the legend labels
         for j, label in enumerate(legend_labels):
             fig.data[j].name = label
@@ -126,6 +125,21 @@ def plot_test_specimens(specimens_df):
 
     # Update the layout and legend for the overlapping plot
     overlapping_fig.update_layout(showlegend=True, legend_title_text='Description')
+    overlapping_fig.update_layout(xaxis_title="Displacement (in)", yaxis_title="Force (lbs)")
+    overlapping_fig.update_layout(
+    title={
+        'text': "Concept 2 Results",
+        'y':0.9,
+        'x':0.4,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    titlefont=dict(
+        size=30
+    ),
+    width=750
+)
+
     # Set the legend labels
     for j, label in enumerate(legend_labels):
         overlapping_fig.data[j].name = label
